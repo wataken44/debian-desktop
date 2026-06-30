@@ -1,0 +1,25 @@
+- name: Install Sway environment
+  hosts: localhost
+  become: true
+  gather_facts: false
+
+  vars:
+    sway_packages:
+      - sway
+      - foot
+      - xwayland
+      - dbus-user-session
+      - xdg-desktop-portal-wlr
+      - greetd
+      - tuigreet
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install packages
+      ansible.builtin.apt:
+        name: "{{ sway_packages }}"
+        state: present

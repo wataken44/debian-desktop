@@ -10,7 +10,7 @@ if [ -f $BIN_DIR/env.sh ]; then
 fi
 
 export LOGIN_USERNAME=$(ls --color=never -1 /home/ | head -n 1)
-echo $PATH
+
 ansible-playbook -i inventory.ini playbook.yml
 
 

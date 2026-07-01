@@ -1,0 +1,27 @@
+- name: install sway and related packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - sway
+    - foot
+    - xwayland
+    - dbus-user-session
+    - xdg-desktop-portal-wlr
+    - greetd
+    - tuigreet
+
+
+- name: configure greetd
+  template:
+    src: config.toml.j2
+    dest: /etc/greetd/config.toml
+    owner: root
+    group: root
+    mode: 0644
+
+
+- name: enable greetd
+  service:
+    name: greetd
+    enabled: true

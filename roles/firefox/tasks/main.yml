@@ -1,0 +1,71 @@
+# from https://support.mozilla.org/ja/kb/install-firefox-linux#w_install-firefox-deb-package-for-debian-based-distributions
+
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - wget
+      - gpg
+    state: present
+    update_cache: true
+
+- name: Create APT keyring directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Download Mozilla repository signing key
+  ansible.builtin.get_url:
+    url: https://packages.mozilla.org/apt/repo-signing-key.gpg
+    dest: /etc/apt/keyrings/packages.mozilla.org.asc
+    owner: root
+    group: root
+    mode: "0644"
+
+# Debian 13 (Trixie) or later
+- name: Configure Mozilla repository (.sources)
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/mozilla.sources
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      Types: deb
+      URIs: https://packages.mozilla.org/apt
+      Suites: mozilla
+      Components: main
+      Signed-By: /etc/apt/keyrings/packages.mozilla.org.asc
+  when: ansible_distribution_major_version | int >= 13
+
+# Debian 12 (Bookworm)
+- name: Configure Mozilla repository (.list)
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/mozilla.list
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main
+  when: ansible_distribution_major_version | int < 13
+
+- name: Configure APT pinning for Mozilla packages
+  ansible.builtin.copy:
+    dest: /etc/apt/preferences.d/mozilla
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      Package: *
+      Pin: origin packages.mozilla.org
+      Pin-Priority: 1000
+
+- name: Update APT cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install Firefox
+  ansible.builtin.apt:
+    name: firefox
+    state: present

@@ -1,4 +1,4 @@
-- name: install xfce and related 
+- name: install xfce and related packages
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
@@ -7,6 +7,7 @@
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
     - xfce4
+    - xfce4-goodies
     - thunar
     - xfce4-terminal
 

@@ -3,9 +3,9 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - fctix5
-    - fctix5-configtool
-    - fctix5-mozc
+    - fcitx5
+    - fcitx5-configtool
+    - fcitx5-mozc
     - fcitx5-frontend-all
     - fonts-noto-cjk
     - fonts-noto-color-emoji

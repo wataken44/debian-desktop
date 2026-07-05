@@ -1,0 +1,14 @@
+---
+# source https://zed.dev/docs/linux
+# $LOGIN_USERNAME is specified at bin/run.sh
+
+- name: Install Zed as LOGIN_USERNAME
+  ansible.builtin.shell: |
+    set -o pipefail
+    wget -qO- https://zed.dev/install.sh | sh
+  args:
+    executable: /bin/bash
+  become: true
+  become_user: "{{ lookup('ansible.builtin.env', 'LOGIN_USERNAME') }}"
+  environment:
+    HOME: "/home/{{ lookup('ansible.builtin.env', 'LOGIN_USERNAME') }}"

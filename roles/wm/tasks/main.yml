@@ -1,0 +1,16 @@
+- name: install xfce and related 
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - lightdm
+    - lightdm-gtk-greeter
+    - lightdm-gtk-greeter-settings
+    - xfce4
+    - thunar
+    - xfce4-terminal
+
+- name: enable lightdm
+  service:
+    name: lightdm
+    enabled: true

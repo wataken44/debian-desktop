@@ -1,8 +1,8 @@
-- name: Install Sway environment
+- name: setup debian desktop
   hosts: localhost
   become: true
   gather_facts: false
   roles:
     - update
-    - sway
+    - wm
     

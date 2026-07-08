@@ -5,13 +5,25 @@
   with_items:
     - lightdm
     - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
     - xfce4
     - xfce4-goodies
-    - thunar
-    - xfce4-terminal
+
+- name: configure lightdm
+  ansible.builtin.ini_file:
+    path: /etc/lightdm/lightdm.conf
+    section: "Seat:*"
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    no_extra_spaces: true
+    mode: "0644"
+    create: true
+  loop:
+    - { option: "greeter-hide-users", value: "false" }
+    - { option: "greeter-show-manual-login", value: "false" }
+    - { option: "allow-guest", value: "false" }
 
 - name: enable lightdm
   service:
     name: lightdm
     enabled: true
+

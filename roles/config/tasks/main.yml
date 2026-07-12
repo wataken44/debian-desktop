@@ -1,0 +1,61 @@
+---
+- name: Configure XFCE appearance
+  become: true
+  become_user: "{{ lookup('env', 'LOGIN_USERNAME') }}"
+  block:
+
+    - name: Disable dock shadow
+      command:
+        argv:
+          - xfconf-query
+          - -c
+          - xfwm4
+          - -p
+          - /general/show_dock_shadow
+          - -n
+          - -t
+          - bool
+          - -s
+          - "false"
+
+    - name: Disable frame shadow
+      command:
+        argv:
+          - xfconf-query
+          - -c
+          - xfwm4
+          - -p
+          - /general/show_frame_shadow
+          - -n
+          - -t
+          - bool
+          - -s
+          - "false"
+
+    - name: Disable wrap windows
+      command:
+        argv:
+          - xfconf-query
+          - -c
+          - xfwm4
+          - -p
+          - /general/wrap_windows
+          - -n
+          - -t
+          - bool
+          - -s
+          - "false"
+
+    - name: Set GTK theme
+      command:
+        argv:
+          - xfconf-query
+          - -c
+          - xsettings
+          - -p
+          - /Net/ThemeName
+          - -n
+          - -t
+          - string
+          - -s
+          - Adwaita-dark

@@ -10,22 +10,6 @@
       - xdg-user-dirs-update
       - --force  
 
-- name: create user systemd directory
-  ansible.builtin.file:
-    path: "{{ login_home }}/.config/systemd/user"
-    state: directory
-    owner: "{{ login_username }}"
-    group: "{{ login_username }}"
-    mode: "0755"
-
-- name: copy service
-  ansible.builtin.template:
-    src: user-initial-setup.service
-    dest: "{{ login_home }}/.config/systemd/user/user-initial-setup.service"
-    owner: "{{ login_username }}"
-    group: "{{ login_username }}"
-    mode: "0644"
-
 - name: create service directory
   ansible.builtin.file:
     path: "{{ login_home }}/opt/user-initial-setup/"
@@ -45,3 +29,29 @@
     - user-initial-setup.service
     - config.sh
     - service.sh
+
+- name: create user systemd directory
+  ansible.builtin.file:
+    path: "{{ login_home }}/.config/systemd/user/"
+    state: directory
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
+    mode: "0755"
+
+- name: copy service
+  ansible.builtin.template:
+    src: user-initial-setup.service.j2
+    dest: "{{ login_home }}/.config/systemd/user/user-initial-setup.service"
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
+    mode: "0644"
+
+- name: enable user service
+  become: true
+  become_user: "{{ login_username }}"
+  command:
+    argv:
+      - systemctl
+      - --user
+      - enable
+      - user-initial-setup.service

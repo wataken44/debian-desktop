@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set_xfconf() {
+    channel="$1"
+    property="$2"
+    type="$3"
+    value="$4"
+
+    if xfconf-query -c "$channel" -p "$property" >/dev/null 2>&1; then
+        xfconf-query -c "$channel" -p "$property" -s "$value"
+    else
+        xfconf-query -c "$channel" -p "$property" -n -t "$type" -s "$value"
+    fi
+}
+
+set_xfconf xfwm4 /general/show_dock_shadow bool false
+set_xfconf xfwm4 /general/show_frame_shadow bool false
+set_xfconf xsettings /Net/ThemeName string Adwaita-dark

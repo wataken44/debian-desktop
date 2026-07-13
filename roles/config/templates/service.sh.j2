@@ -1,0 +1,14 @@
+#!/bin/bash
+
+BASE_DIR=$(cd $(dirname $0);pwd)
+
+if [ -f $BASE_DIR/done.txt ]; then
+    exit
+fi
+
+if [ -f $BASE_DIR/config.sh ]; then
+    /bin/bash $BASE_DIR/config.sh
+fi
+
+systemctl --user disable user-initial-setup.service
+rm -f $HOME/.config/systemd/user/user-initial-setup.service

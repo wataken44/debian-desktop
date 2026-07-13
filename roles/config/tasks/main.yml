@@ -1,61 +1,47 @@
 ---
-- name: Configure XFCE appearance
+- name: run xdg-user-dirs-update in LANG=C.UTF-8
   become: true
-  become_user: "{{ lookup('env', 'LOGIN_USERNAME') }}"
-  block:
+  become_user: "{{ login_username }}"
+  environment:
+    LANG: C.UTF-8
+    LC_ALL: C.UTF-8
+  command:
+    argv:
+      - xdg-user-dirs-update
+      - --force  
 
-    - name: Disable dock shadow
-      command:
-        argv:
-          - xfconf-query
-          - -c
-          - xfwm4
-          - -p
-          - /general/show_dock_shadow
-          - -n
-          - -t
-          - bool
-          - -s
-          - "false"
+- name: create user systemd directory
+  ansible.builtin.file:
+    path: "{{ login_home }}/.config/systemd/user"
+    state: directory
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
+    mode: "0755"
 
-    - name: Disable frame shadow
-      command:
-        argv:
-          - xfconf-query
-          - -c
-          - xfwm4
-          - -p
-          - /general/show_frame_shadow
-          - -n
-          - -t
-          - bool
-          - -s
-          - "false"
+- name: copy service
+  ansible.builtin.template:
+    src: user-initial-setup.service
+    dest: "{{ login_home }}/.config/systemd/user/user-initial-setup.service"
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
+    mode: "0644"
 
-    - name: Disable wrap windows
-      command:
-        argv:
-          - xfconf-query
-          - -c
-          - xfwm4
-          - -p
-          - /general/wrap_windows
-          - -n
-          - -t
-          - bool
-          - -s
-          - "false"
+- name: create service directory
+  ansible.builtin.file:
+    path: "{{ login_home }}/opt/user-initial-setup/"
+    state: directory
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
+    mode: "0755"
 
-    - name: Set GTK theme
-      command:
-        argv:
-          - xfconf-query
-          - -c
-          - xsettings
-          - -p
-          - /Net/ThemeName
-          - -n
-          - -t
-          - string
-          - -s
-          - Adwaita-dark
+- name: copy files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ login_home }}/opt/user-initial-setup/"
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
+    mode: "0644"
+  with_items:
+    - user-initial-setup.service
+    - config.sh
+    - service.sh

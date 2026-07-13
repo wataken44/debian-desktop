@@ -9,6 +9,6 @@
   args:
     executable: /bin/bash
   become: true
-  become_user: "{{ lookup('ansible.builtin.env', 'LOGIN_USERNAME') }}"
+  become_user: "{{ login_username }}"
   environment:
-    HOME: "/home/{{ lookup('ansible.builtin.env', 'LOGIN_USERNAME') }}"
+    HOME: "{{ login_home }}"

@@ -21,7 +21,7 @@
 - name: copy files
   ansible.builtin.template:
     src: "{{ item }}.j2"
-    dest: "{{ login_home }}/opt/user-initial-setup/"
+    dest: "{{ login_home }}/opt/user-initial-setup/{{ item }}"
     owner: "{{ login_username }}"
     group: "{{ login_username }}"
     mode: "0644"
@@ -32,7 +32,7 @@
 
 - name: create user systemd directory
   ansible.builtin.file:
-    path: "{{ login_home }}/.config/systemd/user/"
+    path: "{{ login_home }}/.config/systemd/user/default.target.wants/"
     state: directory
     owner: "{{ login_username }}"
     group: "{{ login_username }}"
@@ -47,11 +47,9 @@
     mode: "0644"
 
 - name: enable user service
-  become: true
-  become_user: "{{ login_username }}"
-  command:
-    argv:
-      - systemctl
-      - --user
-      - enable
-      - user-initial-setup.service
+  file:
+    src: "{{ login_home }}/.config/systemd/user/user-initial-setup.service"
+    dest: "{{ login_home }}/.config/systemd/user/default.target.wants/user-initial-setup.service"
+    state: link
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"

@@ -16,3 +16,7 @@ set_xfconf() {
 set_xfconf xfwm4 /general/show_dock_shadow bool false
 set_xfconf xfwm4 /general/show_frame_shadow bool false
 set_xfconf xsettings /Net/ThemeName string Adwaita-dark
+
+# backup
+mkdir -p ~/opt/backup
+cp ~/.config ~/opt/backup/config

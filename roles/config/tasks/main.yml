@@ -53,3 +53,21 @@
     state: link
     owner: "{{ login_username }}"
     group: "{{ login_username }}"
+
+- name: create fcitx5 config directory
+  ansible.builtin.file:
+    path: "{{ login_home }}/.config/fcitx5/conf/"
+    state: directory
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
+    mode: "0755"
+
+- name: copy config file
+  ansible.builtin.template:
+    src: "xim.conf.j2"
+    dest: "{{ login_home }}/.config/fcitx5/conf/xim.conf.j2"
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
+    mode: "0644"
+
+

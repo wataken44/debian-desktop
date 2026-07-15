@@ -65,7 +65,7 @@
 - name: copy config file
   ansible.builtin.template:
     src: "xim.conf.j2"
-    dest: "{{ login_home }}/.config/fcitx5/conf/xim.conf.j2"
+    dest: "{{ login_home }}/.config/fcitx5/conf/xim.conf"
     owner: "{{ login_username }}"
     group: "{{ login_username }}"
     mode: "0644"

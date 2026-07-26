@@ -1,0 +1,45 @@
+---
+# https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian
+
+- name: install required packages
+  ansible.builtin.apt:
+    name:
+      - wget
+      - gpg
+    state: present
+    update_cache: true
+
+- name: create APT keyrings directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: download GitHub CLI signing key
+  ansible.builtin.get_url:
+    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: add GitHub CLI repository
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/github-cli.sources
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      Types: deb
+      URIs: https://cli.github.com/packages
+      Suites: stable
+      Components: main
+      Signed-By: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+
+- name: Install GitHub CLI
+  ansible.builtin.apt:
+    name: gh
+    state: present
+    update_cache: true

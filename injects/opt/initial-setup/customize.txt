@@ -1,0 +1,26 @@
+
+# first update
+apt update
+apt dist-upgrade -y 
+
+# minimum package install
+
+apt install -y python3-venv git-core
+
+# setup ansible
+python3 -m venv /tmp/venv
+/tmp/venv/bin/pip install ansible
+
+# run playbook
+## clone
+cd /tmp/ && git clone https://github.com/wataken44/debian-desktop.git
+
+## tell path to scripts
+echo 'export PATH=/tmp/venv/bin:$PATH' >> /tmp/debian-desktop/playbook/bin/env.sh
+
+## run.sh will source env.sh and run playbook
+/bin/bash /tmp/debian-desktop/playbook/bin/run.sh
+
+# cleanup if needed, but /tmp/ will be cleaned automatically
+# rm -rf /tmp/venv /tmp/debian-desktop
+

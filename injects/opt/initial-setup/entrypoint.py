@@ -10,7 +10,6 @@ import os
 import subprocess
 import sys
 
-
 logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__)) + "/"
@@ -19,7 +18,6 @@ CUSTOMIZE_FILE = BASE_DIR + "customize.txt"
 
 def main():
     configure_logger()
-
     run_script()
 
 

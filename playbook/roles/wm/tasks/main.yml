@@ -8,7 +8,7 @@
     - xfce4
     - xfce4-goodies
     - network-manager
-    - network-manager-gnome
+    - network-manager-applet
 
 - name: configure lightdm
   ansible.builtin.ini_file:

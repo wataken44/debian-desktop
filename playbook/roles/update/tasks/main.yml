@@ -1,3 +1,10 @@
+- name: modernize apt sources
+  command:
+    argv:
+      - apt
+      - modernize-sources
+      - --assume-yes
+
 - name: update packages
   ansible.builtin.apt:
     autoclean: yes

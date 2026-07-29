@@ -37,7 +37,7 @@
       Suites: mozilla
       Components: main
       Signed-By: /etc/apt/keyrings/packages.mozilla.org.asc
-  when: ansible_distribution_major_version | int >= 13
+  when: ansible_facts["distribution_major_version"] | int >= 13
 
 # Debian 12 (Bookworm)
 - name: Configure Mozilla repository (.list)
@@ -48,7 +48,7 @@
     mode: "0644"
     content: |
       deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main
-  when: ansible_distribution_major_version | int < 13
+  when: ansible_facts["distribution_major_version"] | int < 13
 
 - name: Configure APT pinning for Mozilla packages
   ansible.builtin.copy:

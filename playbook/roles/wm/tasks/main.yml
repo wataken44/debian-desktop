@@ -29,3 +29,18 @@
     name: lightdm
     enabled: true
 
+- name: Configure /etc/network/interfaces for NetworkManager
+  ansible.builtin.copy:
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      # interfaces are managed by NetworkManager, so loopback only.
+      auto lo
+      iface lo inet loopback
+
+- name: enable NetworkManager
+  service:
+    name: NetworkManager
+    enabled: true

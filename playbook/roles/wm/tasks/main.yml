@@ -35,7 +35,7 @@
 
 - name: copy xfce theme
   ansible.builtin.copy:
-    src: "/tmp/mx-comfort-themes/{{ item }}/"
+    src: "/tmp/mx-comfort-themes/{{ item }}"
     dest: /usr/share/themes/
     remote_src: true
     mode: "0755"

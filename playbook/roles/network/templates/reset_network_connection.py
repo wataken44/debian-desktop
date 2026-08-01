@@ -56,7 +56,7 @@ def configure_logger():
     logger.addHandler(file_handler)
 
 
-def remove_connection():
+def delete_connection():
     # to avoid infinite loop, loop 64 times
     for _ in range(64):
         con_list = get_connection_list()

@@ -7,7 +7,6 @@
     - lightdm-gtk-greeter
     - xfce4
     - xfce4-goodies
-    - network-manager
     - network-manager-applet
 
 - name: configure lightdm
@@ -29,18 +28,19 @@
     name: lightdm
     enabled: true
 
-- name: Configure /etc/network/interfaces for NetworkManager
-  ansible.builtin.copy:
-    dest: /etc/network/interfaces
-    owner: root
-    group: root
-    mode: "0644"
-    content: |
-      # interfaces are managed by NetworkManager, so loopback only.
-      auto lo
-      iface lo inet loopback
+- name: clone xfce theme
+  ansible.builtin.git:
+    repo: "https://github.com/MX-Linux/mx-comfort-themes.git"
+    dest: /tmp/    
 
-- name: enable NetworkManager
-  service:
-    name: NetworkManager
-    enabled: true
+- name: copy xfce theme
+  ansible.builtin.copy:
+    src: "/tmp/mx-comfort-themes/{{ item }}/"
+    dest: /usr/share/themes/
+    remote_src: true
+    mode: "0755"
+    owner: "root"
+    group: "root"
+  with_items:
+    - mx-comfort
+    - mx-comfort-dark

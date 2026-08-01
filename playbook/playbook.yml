@@ -3,6 +3,7 @@
   become: true
   roles:
     - update
+    - network 
     - wm
     - ime
     - firefox

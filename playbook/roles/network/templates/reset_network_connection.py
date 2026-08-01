@@ -78,7 +78,7 @@ def add_connection_by_device():
     iface_list = get_interface_list()
 
     for iface in iface_list:
-        for k, v in CONNECTION_TYPE_DICT:
+        for k, v in CONNECTION_TYPE_DICT.items():
             if iface.name.startswith(k):
                 execute(
                     [

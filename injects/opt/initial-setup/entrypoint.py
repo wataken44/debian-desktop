@@ -40,7 +40,9 @@ def run_script():
         cmd = line.strip()
         if len(cmd) == 0 or cmd[0] == "#":
             continue
-        execute(cmd)
+        rc = execute(cmd)
+        if rc != 0:
+            sys.exit(rc)
 
     fp.close()
 
@@ -61,6 +63,8 @@ def execute(cmd):
     if (out == "" and err == "") or (out is None and err is None):
         sep = ", "
     logging.info(f"rc: {proc.returncode}{sep}stdout: {out}{sep}stderr: {err}")
+
+    return proc.returncode
 
 
 if __name__ == "__main__":

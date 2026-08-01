@@ -8,6 +8,9 @@
     - xfce4
     - xfce4-goodies
     - network-manager-applet
+    - gnome-keyring
+    - libsecret-1-0
+    - libpam-gnome-keyring
 
 - name: configure lightdm
   ansible.builtin.ini_file:

@@ -1,10 +1,28 @@
-- name: modernize apt sources
-  command:
-    argv:
-      - apt
-      - modernize-sources
-      - --assume-yes
+- name: backup old sources
+  ansible.builtin.copy:
+    src: /etc/apt/sources.list
+    dest: /etc/apt/sources.list.bak
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0644'
 
+- name: remove old sources
+  ansible.builtin.file:
+    path: {{ item }}
+    state: absent
+  with_items:
+    - /etc/apt/sources.list
+    - /etc/apt/sources.list~
+
+- name: add testing sources
+  ansible.builtin.template:
+    src: debian.sources
+    dest: /etc/apt/sources.list.d/debian.sources
+    owner: root
+    group: root
+    mode: "0644"
+  
 - name: update packages
   ansible.builtin.apt:
     autoclean: yes

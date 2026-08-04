@@ -24,7 +24,6 @@
     group: root
     mode: "0644"
 
-# Debian 13 (Trixie) or later
 - name: Configure Mozilla repository (.sources)
   ansible.builtin.copy:
     dest: /etc/apt/sources.list.d/mozilla.sources
@@ -37,18 +36,6 @@
       Suites: mozilla
       Components: main
       Signed-By: /etc/apt/keyrings/packages.mozilla.org.asc
-  when: ansible_facts["distribution_major_version"] | int >= 13
-
-# Debian 12 (Bookworm)
-- name: Configure Mozilla repository (.list)
-  ansible.builtin.copy:
-    dest: /etc/apt/sources.list.d/mozilla.list
-    owner: root
-    group: root
-    mode: "0644"
-    content: |
-      deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main
-  when: ansible_facts["distribution_major_version"] | int < 13
 
 - name: Configure APT pinning for Mozilla packages
   ansible.builtin.copy:

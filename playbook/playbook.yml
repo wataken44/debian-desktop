@@ -6,9 +6,11 @@
     - network 
     - wm
     - ime
+    - emacs
     - firefox
+    - gh
     - zed    
-    - config
+    - user
   vars:
     login_username: "{{ lookup('ansible.builtin.env', 'LOGIN_USERNAME') }}"
     login_home: "/home/{{ lookup('ansible.builtin.env', 'LOGIN_USERNAME') }}"

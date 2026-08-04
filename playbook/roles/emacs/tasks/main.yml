@@ -1,0 +1,7 @@
+- name: install emacs and related packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - emacs
+    - emacs-mozc

@@ -30,20 +30,3 @@
   service:
     name: lightdm
     enabled: true
-
-- name: clone xfce theme
-  ansible.builtin.git:
-    repo: "https://github.com/MX-Linux/mx-comfort-themes.git"
-    dest: /tmp/mx-comfort-themes/
-
-- name: copy xfce theme
-  ansible.builtin.copy:
-    src: "/tmp/mx-comfort-themes/{{ item }}"
-    dest: /usr/share/themes/
-    remote_src: true
-    mode: "0755"
-    owner: "root"
-    group: "root"
-  with_items:
-    - mx-comfort
-    - mx-comfort-dark

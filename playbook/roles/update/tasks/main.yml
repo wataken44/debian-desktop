@@ -9,7 +9,7 @@
 
 - name: remove old sources
   ansible.builtin.file:
-    path: {{ item }}
+    path: "{{ item }}"
     state: absent
   with_items:
     - /etc/apt/sources.list

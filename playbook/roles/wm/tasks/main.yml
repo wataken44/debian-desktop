@@ -11,7 +11,6 @@
     - gnome-keyring
     - libsecret-1-0
     - libpam-gnome-keyring
-    - gtk2-engines-murrine
 
 - name: configure lightdm
   ansible.builtin.ini_file:
@@ -36,8 +35,6 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ login_username }}"
-    group: "{{ login_username }}"
     mode: "0755"
   with_items:
     - /tmp/Fluent-gtk-theme

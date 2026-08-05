@@ -52,8 +52,6 @@
   command:
     argv:
       - /tmp/Fluent-gtk-theme/install.sh
-      - --tweaks
-      - noborder
 
 - name: run icon theme install script
   command:

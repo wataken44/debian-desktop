@@ -11,6 +11,7 @@
     - gnome-keyring
     - libsecret-1-0
     - libpam-gnome-keyring
+    - zsh
 
 - name: configure lightdm
   ansible.builtin.ini_file:
@@ -31,31 +32,3 @@
     name: lightdm
     enabled: true
 
-- name: create work directory
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    mode: "0755"
-  with_items:
-    - /tmp/Fluent-gtk-theme
-    - /tmp/Fluent-icon-theme
-
-- name: clone gtk theme and icon theme
-  ansible.builtin.git:
-    repo: "https://github.com/vinceliuice/{{ item }}.git"
-    dest: "/tmp/{{ item }}"
-  with_items:
-    - Fluent-gtk-theme
-    - Fluent-icon-theme
-
-- name: run gtk theme install script
-  command:
-    argv:
-      - /tmp/Fluent-gtk-theme/install.sh
-
-- name: run icon theme install script
-  command:
-    argv:
-      - /tmp/Fluent-icon-theme/install.sh
-  
-    

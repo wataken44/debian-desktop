@@ -70,39 +70,27 @@
     group: "{{ login_username }}"
     mode: "0644"
 
-- name: create directory to be cloned
-  ansible.builtin.file:
-    path: "{{ login_home }}/Documents/dot.emacs.d2/"
-    state: directory
-    owner: "{{ login_username }}"
-    group: "{{ login_username }}"
-    mode: "0755"
-
 - name: clone .emacs.d
   ansible.builtin.git:
-    repo: "https://github.com/wataken44/dot.emacs.d2.git"
-    dest: "{{ login_home }}/Documents/dot.emacs.d2/"
+    repo: "https://github.com/wataken44/dot.emacs.d3.git"
+    dest: "{{ login_home }}/Documents/dot.emacs.d3/"
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
 
 - name: create symbolic link
   file:
-    src: "{{ login_home }}/Documents/dot.emacs.d2/"
+    src: "{{ login_home }}/Documents/dot.emacs.d3/"
     dest: "{{ login_home }}/.emacs.d"
     state: link
     owner: "{{ login_username }}"
     group: "{{ login_username }}"
 
-- name: create directory to be cloned
-  ansible.builtin.file:
-    path: "{{ login_home }}/Documents/dot.zshrc/"
-    state: directory
-    owner: "{{ login_username }}"
-    group: "{{ login_username }}"
-    mode: "0755"
-
-- name: clone .emacs.d
+- name: clone .zshrc
   ansible.builtin.git:
     repo: "https://github.com/wataken44/dot.zshrc.git"
     dest: "{{ login_home }}/Documents/dot.zshrc/"
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
 
 - name: create symbolic link
   file:

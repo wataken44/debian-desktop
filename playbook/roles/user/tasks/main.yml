@@ -94,7 +94,7 @@
 
 - name: create symbolic link
   file:
-    src: "{{ login_home }}/Documents/dot.zshrc/"
+    src: "{{ login_home }}/Documents/dot.zshrc/.zshrc"
     dest: "{{ login_home }}/.zshrc"
     state: link
     owner: "{{ login_username }}"

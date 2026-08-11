@@ -10,6 +10,14 @@
       - xdg-user-dirs-update
       - --force  
 
+- name: copy .Xresources
+  ansible.builtin.template:
+    src: "dot.Xresources.j2"
+    dest: "{{ login_home }}/.Xresources"
+    owner: "{{ login_username }}"
+    group: "{{ login_username }}"
+    mode: "0644"
+
 - name: create service directory
   ansible.builtin.file:
     path: "{{ login_home }}/opt/user-initial-setup/"
@@ -18,7 +26,7 @@
     group: "{{ login_username }}"
     mode: "0755"
 
-- name: copy files
+- name: copy user-initial-setup files
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "{{ login_home }}/opt/user-initial-setup/{{ item }}"

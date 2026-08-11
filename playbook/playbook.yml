@@ -4,9 +4,8 @@
   roles:
     - update
     - network 
-    - wm
-    - ime
-    - emacs
+    - xfce
+    - misc
     - firefox
     - gh
     - zed    
